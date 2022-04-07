@@ -10,14 +10,18 @@ img = cv2.imread('D:\Computer_Vision\computer__vision\Computer Vision\selective 
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 print('img shape : ', img.shape)
 
-_, regions = selectivesearch.selective_search(img_rgb, scale = 100, min_size = 2000)
+_, regions = selectivesearch.selective_search(img_rgb, scale = 100, min_size = 5000)
 
-green_rgb = (125, 255, 51)
+# color
+green = (125, 255, 51)
 red = (255, 0, 0)
-cand_rects = [cand['rect'] for cand in regions if cand['size'] > 3000]
-gt_box = [60, 15, 320, 420]
+
+cand_rects = [cand['rect'] for cand in regions if cand['size'] > 5000]
+gt_box = [250, 15, 450, 350]
 img_rgb = cv2.rectangle(img_rgb, (gt_box[0], gt_box[1]), (gt_box[2], gt_box[3]), color = red, thickness = 2)
 
+
+# IOU setting
 def compute_iou(cand_box, gt_box):
 
     # calculate intersection areas
@@ -46,9 +50,9 @@ for index, cand_box in enumerate(cand_rects):
 
     if iou >0.5:
         print('index:', index, "iou:", iou, 'rectangle"', (cand_box[0], cand_box[1], cand_box[2], cand_box[3]))
-        cv2.rectangle(img_rgb, (cand_box[0], cand_box[1]), (cand_box[2],  cand_box[3]), color = green_rgb, thickness = 1)
+        cv2.rectangle(img_rgb, (cand_box[0], cand_box[1]), (cand_box[2],  cand_box[3]), color = green, thickness = 1)
         text = "{}: {:.2f}".format(index, iou)
-        cv2.putText(img_rgb, text, (cand_box[0] + 100, cand_box[1] + 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color = green_rgb, thickness = 1)
+        cv2.putText(img_rgb, text, (cand_box[0] + 100, cand_box[1] + 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color = green, thickness = 1)
 
 plt.figure(figsize = (12, 12))
 plt.imshow(img_rgb)
