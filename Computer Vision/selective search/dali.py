@@ -16,8 +16,8 @@ _, regions = selectivesearch.selective_search(img_rgb, scale = 100, min_size = 5
 green = (125, 255, 51)
 red = (255, 0, 0)
 
-cand_rects = [cand['rect'] for cand in regions if cand['size'] > 5000]
-gt_box = [250, 15, 450, 350]
+cand_rects = [cand['rect'] for cand in regions if cand['size'] > 3000]
+gt_box = [290, 10, 430, 230]
 img_rgb = cv2.rectangle(img_rgb, (gt_box[0], gt_box[1]), (gt_box[2], gt_box[3]), color = red, thickness = 2)
 
 
