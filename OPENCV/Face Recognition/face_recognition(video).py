@@ -25,9 +25,9 @@ def rotate_image(image, angle):
 cap = cv2.VideoCapture('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/video/face_video2.mp4')
 
 # 덮어씌울 이미지 불러오기
-image_right_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_left_eye_2.png', cv2.IMREAD_UNCHANGED)
-image_left_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_right_eye_2.png', cv2.IMREAD_UNCHANGED)
-image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/fox_nose_2.png', cv2.IMREAD_UNCHANGED)
+image_right_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_left_eye.png', cv2.IMREAD_UNCHANGED)
+image_left_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_right_eye.png', cv2.IMREAD_UNCHANGED)
+image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/fox_nose.png', cv2.IMREAD_UNCHANGED)
 
 # 동영상(3channel)에 불러온 이미지(4channel)를 넣어주기 위한 추가연산함수
 def overlay(image, x, y, w, h, overlay_image): # 대상 이미지(3channel), x, y, width, height, 덮어씌울 이미지(4channel)
@@ -97,7 +97,7 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
 
       # Flip the image horizontally for a selfie-view display & Video resize 0.5
-      cv2.imshow('Face Detection', cv2.resize(image, None, fx = 0.5, fy = 0.5))
+      cv2.imshow('Face Detection', cv2.resize(image, None, fx = 0.5, fy =0.5))
 
       if cv2.waitKey(1) == ord('q'):
         break
