@@ -12,12 +12,12 @@ import mediapipe as mp
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 # 덮어씌울 이미지 불러오기
-image_right_eye = cv2.imread('image/right_eye.png')
-image_left_eye = cv2.imread('image/left_eye.png')
-image_nose = cv2.imread('image/nose.png')
+image_right_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_left_eye.png', cv2.IMREAD_UNCHANGED)
+image_left_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_right_eye.png', cv2.IMREAD_UNCHANGED)
+image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/fox_nose.png', cv2.IMREAD_UNCHANGED)
 
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
     while cap.isOpened():
@@ -51,9 +51,9 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
           nose_tip = (int(nose_tip.x * w), int(nose_tip.y * h))
 
           # 3개 포인트에 이미지 덮어씌우기
-          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = int(image_right_eye) # right_eye x, y좌표의 ±50 영역에 image_right_eye 넣어줌
-          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = int(image_left_eye)
-          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = int(image_nose)
+          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = image_right_eye # right_eye x, y좌표의 ±50 영역에 image_right_eye 넣어줌
+          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = image_left_eye
+          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = image_nose
 
       # Flip the image horizontally for a selfie-view display.
       cv2.imshow('Face Detection', cv2.flip(image, 1)) # cv2.flip(image, 1) : image flip
