@@ -12,6 +12,14 @@ import mediapipe as mp
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 
+# rotate function 설정
+def rotate_image(image, angle):
+    image_center = tuple(np.array(image.shape[1::-1]) / 2)
+    rotate_math = cv2.getRotationMatrix2D(image_center, angle, 1.0)
+    result = cv2.warpAffine(image, rotate_math, image.shape[1::-1], flags = cv2.INTER_LINEAR, borderValue = (255, 255, 255))
+    return result
+
+# Webcam OPEN
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 # 덮어씌울 이미지 불러오기
@@ -54,6 +62,19 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
           image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = int(image_right_eye) # right_eye x, y좌표의 ±50 영역에 image_right_eye 넣어줌
           image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = int(image_left_eye)
           image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = int(image_nose)
+
+          # image rotate
+          tan_theta = (left_eye[1] - right_eye[1]) / (right_eye[0] - left_eye[0])
+          theta = np.arctan(tan_theta)
+          rotate_angle = theta * 180 / math.pi
+          rotate_image_right_eye = rotate_image(image_right_eye, rotate_angle)
+          rotate_image_left_eye = rotate_image(image_left_eye, rotate_angle)
+          rotate_image_nose = rotate_image(image_nose, rotate_angle)
+
+          # overlay 함수 호출해서 이미지 적용
+          overlay(image, *right_eye, 50, 50, rotate_image_right_eye)
+          overlay(image, *left_eye, 50, 50, rotate_image_left_eye)
+          overlay(image, *nose_tip, 150, 50, rotate_image_nose)
 
       # Flip the image horizontally for a selfie-view display.
       cv2.imshow('Face Detection', cv2.flip(image, 1)) # cv2.flip(image, 1) : image flip
