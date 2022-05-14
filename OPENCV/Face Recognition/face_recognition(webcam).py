@@ -7,6 +7,8 @@
 # 라이브러리 불러오기
 import cv2
 import mediapipe as mp
+import numpy as np
+import math
 
 # 얼굴 찾고 표시를 해주기 위한 변수 정의
 mp_face_detection = mp.solutions.face_detection
@@ -26,6 +28,13 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 image_right_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_left_eye.png', cv2.IMREAD_UNCHANGED)
 image_left_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_right_eye.png', cv2.IMREAD_UNCHANGED)
 image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/fox_nose.png', cv2.IMREAD_UNCHANGED)
+
+def overlay(image, x, y, w, h, overlay_image):
+    alpha = overlay_image[:, :, 3]
+    mask_image = alpha / 255
+
+    for c in range(0, 3): # channel BGR
+        image[y - h : y + h, x - w : x + w, c] = (overlay_image[:, :, c] * mask_image) + (image[y - h : y + h, x - w : x + w, c] * (1 - mask_image))
 
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
     while cap.isOpened():
