@@ -63,14 +63,14 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
           # 이미지 내에서 실제 좌표(x, y) 설정
           # relative_keypoints에서 가져온 x, y좌표와 h, w을 곱하면 이미지에서 원하는 좌표를 얻을 수 있음
-          right_eye = (int(right_eye.x * w) - 100, int(right_eye.y * h) - 150) # x, y 좌표와 w, h의 곱을 정수형으로 변환 후 전체 튜플 형태로 변경
+          right_eye = (int(right_eye.x * w) - 100, int(right_eye.y * h) - 150)
           left_eye = (int(left_eye.x * w) + 20, int(left_eye.y * h) - 150)
           nose_tip = (int(nose_tip.x * w), int(nose_tip.y * h))
 
           # 3개 포인트에 이미지 덮어씌우기
-          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = int(image_right_eye) # right_eye x, y좌표의 ±50 영역에 image_right_eye 넣어줌
-          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = int(image_left_eye)
-          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = int(image_nose)
+          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = image_right_eye
+          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = image_left_eye
+          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = image_nose
 
           # image rotate
           tan_theta = (left_eye[1] - right_eye[1]) / (right_eye[0] - left_eye[0])
@@ -86,7 +86,7 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
           overlay(image, *nose_tip, 150, 50, rotate_image_nose)
 
       # Flip the image horizontally for a selfie-view display.
-      cv2.imshow('Face Detection', cv2.flip(image, 1)) # cv2.flip(image, 1) : image flip
+      cv2.imshow('Face Detection', cv2.flip(image, 1))
 
       if cv2.waitKey(1) == ord('q'):
         break
