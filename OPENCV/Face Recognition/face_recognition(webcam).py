@@ -30,7 +30,7 @@ image_left_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Rec
 image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/fox_nose.png', cv2.IMREAD_UNCHANGED)
 
 def overlay(image, x, y, w, h, overlay_image):
-    alpha = overlay_image[:, :, 3]
+    alpha = overlay_image[:, :, 4]
     mask_image = alpha / 255
 
     for c in range(0, 3): # channel BGR
