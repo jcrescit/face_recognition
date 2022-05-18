@@ -22,7 +22,7 @@ def rotate_image(image, angle):
     return result
 
 # Webcam OPEN
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0)
 
 # 덮어씌울 이미지 불러오기
 image_right_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_left_eye.png', cv2.IMREAD_UNCHANGED)
