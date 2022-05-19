@@ -81,9 +81,9 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
           left_eye = (int(left_eye.x * w) + 20, int(left_eye.y * h) - 150)
           nose_tip = (int(nose_tip.x * w), int(nose_tip.y * h))
 
-          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = int(image_right_eye) # right_eye x, y좌표의 ±50 영역에 image_right_eye 넣어줌
-          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = int(image_left_eye)
-          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = int(image_nose)
+          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = image_right_eye # right_eye x, y좌표의 ±50 영역에 image_right_eye 넣어줌
+          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = image_left_eye
+          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = image_nose
 
           # image rotate
           tan_theta = (left_eye[1] - right_eye[1]) / (right_eye[0] - left_eye[0])
