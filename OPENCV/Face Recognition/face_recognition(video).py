@@ -36,7 +36,7 @@ def overlay(image, x, y, w, h, overlay_image): # 대상 이미지(3channel), x, 
     # 0 ~ 255 -> 0 ~ 1 (1 : 불투명, 0 : 투명)
     # mask_image가 붍투명하면 overlay_image을 적용하고, 투명하면 overlay_image을 적용하지 않게됨
 
-    for c in range(0, 3): # channel BGR
+    for c in range(0, 4): # channel BGR
         image[y - h : y + h, x - w : x + w, c] = (overlay_image[:, :, c] * mask_image) + (image[y - h : y + h, x - w : x + w, c] * (1 - mask_image))
 
 
