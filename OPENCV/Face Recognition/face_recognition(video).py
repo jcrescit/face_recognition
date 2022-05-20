@@ -31,7 +31,7 @@ image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recogni
 
 # 동영상(3channel)에 불러온 이미지(4channel)를 넣어주기 위한 추가연산함수
 def overlay(image, x, y, w, h, overlay_image): # 대상 이미지(3channel), x, y, width, height, 덮어씌울 이미지(4channel)
-    alpha = overlay_image[:, :, 3] # BGRA 중에서 A만 가져옴
+    alpha = overlay_image[:, :, 4] # BGRA 중에서 A만 가져옴
     mask_image = alpha / 255
     # 0 ~ 255 -> 0 ~ 1 (1 : 불투명, 0 : 투명)
     # mask_image가 붍투명하면 overlay_image을 적용하고, 투명하면 overlay_image을 적용하지 않게됨
