@@ -73,11 +73,11 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
           left_eye = keypoints[1]
           nose_tip = keypoints[2]
 
-          h, w, _ = image.shape # height, width, channel : 이미지로부터 height, width 크기에 대한 정보 가져옴 (여기서 channel은 필요없으므로 _처리)
+          h, w, _ = image.shape # height, width, channel
 
           # 이미지 내에서 실제 좌표(x, y) 설정
           # relative_keypoints에서 가져온 x, y좌표와 h, w을 곱하면 이미지에서 원하는 좌표를 얻을 수 있음
-          right_eye = (int(right_eye.x * w) - 100, int(right_eye.y * h) - 150) # x, y 좌표와 w, h의 곱을 정수형으로 변환 후 전체 튜플 형태로 변경
+          right_eye = (int(right_eye.x * w) - 100, int(right_eye.y * h) - 150)
           left_eye = (int(left_eye.x * w) + 20, int(left_eye.y * h) - 150)
           nose_tip = (int(nose_tip.x * w), int(nose_tip.y * h))
 
