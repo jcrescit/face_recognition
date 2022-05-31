@@ -41,8 +41,6 @@ def overlay(image, x, y, w, h, overlay_image): # 대상 이미지(3channel), x, 
 
 
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.7) as face_detection:
-  # model_selection = 0 : 카메라로부터 2m 이내의 근거리에 적합, = 1 : 5m 이내의 근거리에 적합
-  # min_detection_confidence : 신뢰도가 특정 %이상되면, 얼굴로 인식할지 정의 (threshold개념과 유사)
 
     while cap.isOpened():
       success, image = cap.read() # frame을 불러와서 success되면 image에 저장
@@ -83,7 +81,7 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
           image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = image_right_eye
           image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = image_left_eye
-          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = image_nose
+          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = int(image_nose)
 
           # image rotate
           tan_theta = (left_eye[1] - right_eye[1]) / (right_eye[0] - left_eye[0])
