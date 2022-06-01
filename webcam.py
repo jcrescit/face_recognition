@@ -25,9 +25,9 @@ def rotate_image(image, angle):
 cap = cv2.VideoCapture(0)
 
 # 덮어씌울 이미지 불러오기
-image_right_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_left_eye.png', cv2.IMREAD_UNCHANGED)
-image_left_eye = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/panda_right_eye.png', cv2.IMREAD_UNCHANGED)
-image_nose = cv2.imread('D:/Computer_Vision/computer__vision/OPENCV/Face Recognition/image/fox_nose.png', cv2.IMREAD_UNCHANGED)
+image_right_eye = cv2.imread('D:\Computer_Vision\face_recognition\face_recognition\image\panda_right_eye_2.png', cv2.IMREAD_UNCHANGED)
+image_left_eye = cv2.imread('D:\Computer_Vision\face_recognition\face_recognition\image\panda_left_eye_2.png', cv2.IMREAD_UNCHANGED)
+image_nose = cv2.imread('D:\Computer_Vision\face_recognition\face_recognition\image\fox_nose_2.png', cv2.IMREAD_UNCHANGED)
 
 def overlay(image, x, y, w, h, overlay_image):
     alpha = overlay_image[:, :, 4]
