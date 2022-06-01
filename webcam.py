@@ -63,9 +63,9 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
           # 이미지 내에서 실제 좌표(x, y) 설정
           # relative_keypoints에서 가져온 x, y좌표와 h, w을 곱하면 이미지에서 원하는 좌표를 얻을 수 있음
-          right_eye = (int(right_eye.x * w) - 100, int(right_eye.y * h) - 150)
-          left_eye = (int(left_eye.x * w) + 20, int(left_eye.y * h) - 150)
-          nose_tip = (int(nose_tip.x * w), int(nose_tip.y * h))
+          right_eye = (right_eye.x * w - 100, right_eye.y * h - 150)
+          left_eye = (left_eye.x * w + 20, left_eye.y * h - 150)
+          nose_tip = (nose_tip.x * w, nose_tip.y * h)
 
           # 3개 포인트에 이미지 덮어씌우기
           image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = image_right_eye
