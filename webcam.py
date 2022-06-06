@@ -24,18 +24,6 @@ def rotate_image(image, angle):
 # Webcam OPEN
 cap = cv2.VideoCapture(0)
 
-# 덮어씌울 이미지 불러오기
-image_right_eye = cv2.imread('D:\Computer_Vision\face_recognition\face_recognition\image\panda_right_eye_2.png', cv2.IMREAD_UNCHANGED)
-image_left_eye = cv2.imread('D:\Computer_Vision\face_recognition\face_recognition\image\panda_left_eye_2.png', cv2.IMREAD_UNCHANGED)
-image_nose = cv2.imread('D:\Computer_Vision\face_recognition\face_recognition\image\fox_nose_2.png', cv2.IMREAD_UNCHANGED)
-
-def overlay(image, x, y, w, h, overlay_image):
-    alpha = overlay_image[:, :, 4]
-    mask_image = alpha / 255
-
-    for c in range(0, 3): # channel BGR
-        image[y - h : y + h, x - w : x + w, c] = (overlay_image[:, :, c] * mask_image) + (image[y - h : y + h, x - w : x + w, c] * (1 - mask_image))
-
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
     while cap.isOpened():
       success, image = cap.read()
@@ -67,24 +55,20 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
           left_eye = (left_eye.x * w + 20, left_eye.y * h - 150)
           nose_tip = (nose_tip.x * w, nose_tip.y * h)
 
-          # 3개 포인트에 이미지 덮어씌우기
-          image[right_eye[1] - 50 : right_eye[1] + 50, right_eye[0] - 50 : right_eye[0] + 50] = int(image_right_eye)
-          image[left_eye[1] - 50 : left_eye[1] + 50, left_eye[0] - 50 : left_eye[0] + 50] = int(image_left_eye)
-          image[nose_tip[1] - 50 : nose_tip[1] + 50, nose_tip[0] - 150 : nose_tip[0] + 150] = int(image_nose)
+          # 3개 포인트에 원으로 표시
+          cv2.circle(image, right_eye, 50, (255, 0, 0), 10, cv2.LINE_AA)
+          cv2.circle(image, left_eye, 50, (0, 255, 0), 10, cv2.LINE_AA)
+          cv2.circle(image, nose_tip, 50, (0, 255, 255), 10, cv2.LINE_AA)
 
           # image rotate
           tan_theta = (left_eye[1] - right_eye[1]) / (right_eye[0] - left_eye[0])
           theta = np.arctan(tan_theta)
           rotate_angle = theta * 180 / math.pi
-          rotate_image_right_eye = rotate_image(image_right_eye, rotate_angle)
-          rotate_image_left_eye = rotate_image(image_left_eye, rotate_angle)
-          rotate_image_nose = rotate_image(image_nose, rotate_angle)
+          rotate_image_right_eye = rotate_image(right_eye, rotate_angle)
+          rotate_image_left_eye = rotate_image(left_eye, rotate_angle)
+          rotate_image_nose = rotate_image(nose_tip, rotate_angle)
 
-          # overlay 함수 호출해서 이미지 적용
-          overlay(image, *right_eye, 50, 50, rotate_image_right_eye)
-          overlay(image, *left_eye, 50, 50, rotate_image_left_eye)
-          overlay(image, *nose_tip, 150, 50, rotate_image_nose)
-
+        
       # Flip the image horizontally for a selfie-view display.
       cv2.imshow('Face Detection', cv2.flip(image, 1))
 
