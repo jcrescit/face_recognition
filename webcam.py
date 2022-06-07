@@ -8,25 +8,19 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-import math
 
 # 얼굴 찾고 표시를 해주기 위한 변수 정의
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 
-# rotate function
-def rotate_image(image, angle):
-    image_center = tuple(np.array(image.shape[1::-1]) / 2)
-    rotate_math = cv2.getRotationMatrix2D(image_center, angle, 1.0)
-    result = cv2.warpAffine(image, rotate_math, image.shape[1::-1], flags = cv2.INTER_LINEAR, borderValue = (255, 255, 255))
-    return result
-
 # Webcam OPEN
 cap = cv2.VideoCapture(0)
 
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
+
     while cap.isOpened():
       success, image = cap.read()
+
       if not success:
         continue
 
@@ -42,6 +36,9 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
       if results.detections:
         for detection in results.detections:
+
+          mp_drawing.draw_detection(image, detection)
+
           keypoints = detection.location_data.relative_keypoints
           right_eye = keypoints[0]
           left_eye = keypoints[1]
@@ -51,23 +48,14 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
           # 이미지 내에서 실제 좌표(x, y) 설정
           # relative_keypoints에서 가져온 x, y좌표와 h, w을 곱하면 이미지에서 원하는 좌표를 얻을 수 있음
-          right_eye = (right_eye.x * w - 100, right_eye.y * h - 150)
-          left_eye = (left_eye.x * w + 20, left_eye.y * h - 150)
-          nose_tip = (nose_tip.x * w, nose_tip.y * h)
+          right_eye = (int(right_eye.x * w - 100, right_eye.y * h - 150))
+          left_eye = (int(left_eye.x * w + 20, left_eye.y * h - 150))
+          nose_tip = (int(nose_tip.x * w, nose_tip.y * h))
 
           # 3개 포인트에 원으로 표시
           cv2.circle(image, right_eye, 50, (255, 0, 0), 10, cv2.LINE_AA)
           cv2.circle(image, left_eye, 50, (0, 255, 0), 10, cv2.LINE_AA)
           cv2.circle(image, nose_tip, 50, (0, 255, 255), 10, cv2.LINE_AA)
-
-          # image rotate
-          tan_theta = (left_eye[1] - right_eye[1]) / (right_eye[0] - left_eye[0])
-          theta = np.arctan(tan_theta)
-          rotate_angle = theta * 180 / math.pi
-          rotate_image_right_eye = rotate_image(right_eye, rotate_angle)
-          rotate_image_left_eye = rotate_image(left_eye, rotate_angle)
-          rotate_image_nose = rotate_image(nose_tip, rotate_angle)
-
         
       # Flip the image horizontally for a selfie-view display.
       cv2.imshow('Face Detection', cv2.flip(image, 1))
