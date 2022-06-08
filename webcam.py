@@ -4,16 +4,16 @@
 ③ 얼굴 각도에 따라 덮어씌운 이미지 각도 변형하기
 '''
 
-# 라이브러리 불러오기
+# Open library
 import cv2
 import mediapipe as mp
 import numpy as np
 
-# 얼굴 찾고 표시를 해주기 위한 변수 정의
+# Define variables(find and display face)
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 
-# Webcam OPEN
+# Open webcam
 cap = cv2.VideoCapture(0)
 
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
