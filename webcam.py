@@ -1,7 +1,7 @@
 '''
 ① webcam으로 face detection
 ② 이미지 덮어씌우기
-③ 얼굴 각도에 따라 덮어씌운 이미지 각도 변형하기
+③ 얼굴 각도에 따라 덮어씌운 이미지 각도 변형
 '''
 
 # Open library
@@ -32,7 +32,7 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
 
       # Draw the face detection annotations on the image.
       image.flags.writeable = True
-      image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+      image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR).copy()
 
       if results.detections:
         for detection in results.detections:
